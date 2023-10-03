@@ -1,2 +1,24 @@
 import 'normalize.css';
 import './style.scss';
+import { Navigation, Thumbs } from 'swiper/modules';
+import Swiper from 'swiper';
+import 'swiper/css';
+
+const swiperThumbnails = new Swiper('.product__slider-thumbnails', {
+  spaceBetween: 10,
+  slidesPerView: 4,
+  freeMode: true,
+  watchSlidesProgress: true,
+});
+
+new Swiper('.product__slider-main', {
+  spaceBetween: 10,
+  navigation: {
+    nextEl: '.product__arrow-next',
+    prevEl: '.product__arrow-prev',
+  },
+  thumbs: {
+    swiper: swiperThumbnails,
+  },
+  modules: [Navigation, Thumbs],
+});
