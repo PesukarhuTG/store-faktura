@@ -19,4 +19,21 @@
   &__item:last-child &__separator {
     display: none;
   }
+
+  &__link {
+    border-radius: 4px;
+    outline-offset: 4px;
+    outline: 1px solid transparent;
+    transition: 0.3s all;
+
+    &:hover,
+    &:active {
+      color: #780096;
+    }
+
+    &:focus-visible {
+      color: #780096;
+      outline-color: #780096;
+    }
+  }
 }
