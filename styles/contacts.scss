@@ -1,13 +1,19 @@
 .contacts {
   &__phone {
+    display: flex;
+    gap: 4px;
   }
 
   &__list {
-  }
-
-  &__item {
+    display: flex;
+    gap: 8px;
   }
 
   &__link {
+    transition: 0.3s all;
+
+    &:hover {
+      color: #780096;
+    }
   }
 }
