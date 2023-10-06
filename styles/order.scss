@@ -4,31 +4,29 @@
   border-bottom: 1px solid #eeeff2;
 
   @media (min-width: 580px) {
-    padding: 60px 150px;
-    margin-left: 29px;
-    margin-right: 29px;
+    max-width: 710px;
+    margin-left: auto;
+    margin-right: auto;
     margin-top: 60px;
+    padding-top: 60px;
+    padding-bottom: 60px;
     border: 1px solid #eeeff2;
     border-radius: 16px;
   }
 
   @media (min-width: 820px) {
-    padding: 60px 159px;
-    margin-left: 150px;
-    margin-right: 150px;
+    max-width: 726px;
   }
 
   @media (min-width: 1120px) {
-    padding: 60px 212px;
-    margin-left: 304px;
-    margin-right: 304px;
+    max-width: 832px;
   }
 
   &__container {
     position: relative;
 
     @media (min-width: 580px) {
-      min-width: 408px;
+      max-width: 408px;
       padding: 0;
     }
   }
