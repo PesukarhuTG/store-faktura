@@ -1,7 +1,6 @@
 .form-order {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
 
   @media (min-width: 580px) {
     gap: 10px 16px;
@@ -9,8 +8,8 @@
   }
 
   @media (min-width: 820px) {
-    gap: 24px 16px;
-    grid-template-columns: 230px 196px 1fr;
+    gap: 16px;
+    grid-template-columns: 196px 196px 1fr;
   }
 
   &__fieldset {
