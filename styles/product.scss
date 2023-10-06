@@ -86,6 +86,15 @@
     transform: translateY(-50%);
     width: 32px;
 
+    border-radius: 50%;
+    outline-offset: 4px;
+    outline: 1px solid transparent;
+    transition: 0.3s all;
+
+    &:focus-visible {
+      outline-color: #780096;
+    }
+
     &_next {
       right: 16px;
 
@@ -182,6 +191,7 @@
     border: 1px solid transparent;
     background-color: #780096;
     border-radius: 32px;
+    outline: 0;
 
     &:hover {
       background-color: #9200b7;
@@ -195,5 +205,19 @@
   &__like {
     width: 16px;
     height: 16px;
+
+    border-radius: 4px;
+    outline-offset: 4px;
+    outline: 1px solid transparent;
+    transition: 0.3s all;
+
+    &:hover {
+      color: #780096;
+    }
+
+    &:focus-visible {
+      color: #780096;
+      outline-color: #780096;
+    }
   }
 }
