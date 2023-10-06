@@ -68,6 +68,14 @@
 
   &__developer-link {
     transition: 0.3s all;
+    border-radius: 4px;
+    outline-offset: 2px;
+    outline: 1px solid transparent;
+
+    &:focus-visible {
+      outline-color: #fff;
+    }
+
     &:hover {
       color: #780096;
     }

@@ -11,6 +11,11 @@
 
   &__link {
     transition: 0.3s all;
+    outline: 0;
+
+    &:focus-visible {
+      color: #780096;
+    }
 
     &:hover {
       color: #780096;

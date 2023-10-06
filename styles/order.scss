@@ -1,19 +1,101 @@
 .order {
+  padding-top: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid #eeeff2;
+
+  @media (min-width: 580px) {
+    padding: 60px 150px;
+    margin-left: 29px;
+    margin-right: 29px;
+    margin-top: 60px;
+    border: 1px solid #eeeff2;
+    border-radius: 16px;
+  }
+
+  @media (min-width: 820px) {
+    padding: 60px 159px;
+    margin-left: 150px;
+    margin-right: 150px;
+  }
+
+  @media (min-width: 1120px) {
+    padding: 60px 212px;
+    margin-left: 304px;
+    margin-right: 304px;
+  }
+
+  &__container {
+    position: relative;
+
+    @media (min-width: 580px) {
+      min-width: 408px;
+      padding: 0;
+    }
+  }
+
   &__title {
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 400;
+
+    @media (min-width: 580px) {
+      margin-bottom: 12px;
+      font-size: 20px;
+    }
   }
 
   &__price {
+    display: inline-block;
+    width: 100%;
+    margin-bottom: 12px;
+    font-size: 16px;
+
+    @media (min-width: 580px) {
+      width: auto;
+      position: absolute;
+      top: 0;
+      right: 0;
+      font-size: 20px;
+    }
   }
 
   &__number {
+    display: inline-block;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 32px;
+    background-color: #eeeff2;
+    margin-bottom: 20px;
+
+    @media (min-width: 580px) {
+      margin-bottom: 24px;
+    }
   }
 
   &__subtitle {
-  }
-
-  &__description-table {
+    margin-bottom: 12px;
+    font-size: 16px;
+    font-weight: 400;
   }
 
   &__btn {
+    display: inline-block;
+    width: 100%;
+    margin-top: 24px;
+    padding: 12px 24px;
+    border-radius: 32px;
+    border: 1px solid transparent;
+    background-color: #780096;
+    color: #fff;
+    outline: 0;
+    transition: 0.3s all;
+
+    &:hover {
+      background-color: #9200b7;
+    }
+
+    &:focus-visible {
+      border-color: #cc00ff;
+    }
   }
 }
