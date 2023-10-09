@@ -28,15 +28,21 @@
     display: grid;
     gap: 50px 8px;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-bottom: 32px;
 
     @media (min-width: 580px) {
       grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
       gap: 65px 10px;
+      margin-bottom: 40px;
     }
 
     @media (min-width: 820px) {
       grid-template-columns: repeat(auto-fit, minmax(302px, 1fr));
       gap: 80px 16px;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
     }
   }
 }

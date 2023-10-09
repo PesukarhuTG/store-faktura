@@ -1,0 +1,46 @@
+.pagination {
+  width: 200px;
+  margin: 0 auto;
+
+  &__bar {
+    height: 6px;
+    margin-bottom: 16px;
+    background-color: #eeeff2;
+    border-radius: 3px;
+
+    &::after {
+      content: '';
+      display: block;
+      height: 100%;
+      width: var(--width);
+      background-color: #780096;
+      border-radius: 3px;
+      transition: width 0.36s ease-in-out;
+    }
+  }
+
+  &__arrows {
+    max-width: 96px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  &__btn {
+    border-radius: 4px;
+    outline-offset: 4px;
+    outline: 1px solid transparent;
+    transition: 0.3s all;
+
+    &:hover {
+      color: #780096;
+    }
+
+    &:focus-visible {
+      color: #780096;
+      outline-color: #780096;
+    }
+  }
+}
