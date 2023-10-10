@@ -1,5 +1,6 @@
 import 'normalize.css';
 import './style.scss';
+import Navigo from 'navigo';
 
 const productSlider = () => {
   Promise.all([
@@ -30,6 +31,36 @@ const productSlider = () => {
 
 const init = () => {
   productSlider();
+
+  const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
+  router
+    .on('/', () => {
+      console.log('на главной');
+    })
+    .on('/category', () => {
+      console.log('категории');
+    })
+    .on('/favourite', () => {
+      console.log('избранное');
+    })
+    .on('/cart', () => {
+      console.log('корзина');
+    })
+    .on('/search', () => {
+      console.log('поиск');
+    })
+    .on('/product/:id', (obj) => {
+      console.log('продукт', obj);
+    })
+    .on('/order', () => {
+      console.log('заказ');
+    })
+    .notFound(() => {
+      console.log('404');
+      document.body.innerHTML = '<h2>Страница не найдена</h2>';
+    });
+
+  router.resolve();
 };
 
 init();
