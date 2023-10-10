@@ -4,6 +4,7 @@ import Navigo from 'navigo';
 import { Header } from './modules/Header/Header';
 import { Main } from './modules/Main/Main';
 import { Footer } from './modules/Footer/Footer';
+import { Order } from './modules/Order/Order';
 
 const productSlider = () => {
   Promise.all([
@@ -60,6 +61,7 @@ const init = () => {
       console.log('продукт', obj);
     })
     .on('/order', () => {
+      new Order().mount(new Main().element);
       console.log('заказ');
     })
     .notFound(() => {
