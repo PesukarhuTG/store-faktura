@@ -5,6 +5,7 @@ import { Header } from './modules/Header/Header';
 import { Main } from './modules/Main/Main';
 import { Footer } from './modules/Footer/Footer';
 import { Order } from './modules/Order/Order';
+import { ProductList } from './modules/ProductList/ProductList';
 
 const productSlider = () => {
   Promise.all([
@@ -42,15 +43,52 @@ const init = () => {
 
   const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
   router
-    .on('/', () => {
-      console.log('на главной');
-    })
-    .on('/category', () => {
-      console.log('категории');
-    })
-    .on('/favourite', () => {
-      console.log('избранное');
-    })
+    .on(
+      '/',
+      () => {
+        new ProductList().mount(new Main().element, [1, 2, 3]);
+        console.log('на главной');
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+        already() {
+          console.log('already');
+        },
+      }
+    )
+    .on(
+      '/category',
+      () => {
+        new ProductList().mount(
+          new Main().element,
+          [1, 2, 3, 4, 5, 6, 7],
+          'Kaтегория'
+        );
+        console.log('категории');
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+      }
+    )
+    .on(
+      '/favourite',
+      () => {
+        new ProductList().mount(new Main().element, [1, 2, 3], 'Избранное');
+        console.log('избранное');
+      },
+      {
+        leave(done) {
+          console.log('leave');
+          done();
+        },
+      }
+    )
     .on('/cart', () => {
       console.log('корзина');
     })
@@ -64,10 +102,29 @@ const init = () => {
       new Order().mount(new Main().element);
       console.log('заказ');
     })
-    .notFound(() => {
-      console.log('404');
-      document.body.innerHTML = '<h2>Страница не найдена</h2>';
-    });
+    .notFound(
+      () => {
+        new Main().element.innerHTML = `
+          <h2 class="error__title">Ууупс, страница не&nbsp;найдена</h2>
+          <div class="error__img">
+            <svg class="icon error-animate">
+                <use xlink:href="/img/sprite.svg#error"></use>
+            </svg>
+          </div>
+          <p class="error__description">Через 5&nbsp;сек. вы будете перенаправлены на&nbsp;<a class="error__link" href="/">Главную страницу</a></p>
+        `;
+
+        setTimeout(() => {
+          router.navigate('/');
+        }, 5000);
+      },
+      {
+        leave(done) {
+          new Main().element.innerHTML = '';
+          done();
+        },
+      }
+    );
 
   router.resolve();
 };
