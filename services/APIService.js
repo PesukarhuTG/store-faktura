@@ -1,11 +1,14 @@
 import axios from 'axios';
 import { API_URL } from '../modules/utils/const';
+import { LStorageService } from './LStorageService';
+
+const LS = new LStorageService();
 
 export class APIService {
   #apiUrl = API_URL;
 
   constructor() {
-    this.accessKey = localStorage.getItem('accessKey');
+    this.accessKey = LS.get('accessKey');
   }
 
   async getAccessKey() {
@@ -13,7 +16,7 @@ export class APIService {
       if (!this.accessKey) {
         const response = await axios.get(`${this.#apiUrl}api/users/accessKey`);
         this.accessKey = response.data.accessKey;
-        localStorage.setItem('accessKey', this.accessKey);
+        LS.set('accessKey', this.accessKey);
       }
     } catch (error) {
       console.log(error);
@@ -37,7 +40,7 @@ export class APIService {
     } catch (error) {
       if (error.response && error.response.status === 401) {
         this.accessKey = null;
-        localStorage.removeItem('accessKey');
+        LS.delete('accessKey');
         return this.getData(pathName, params); //перевызов, если токен не подошел
       } else {
         console.log(error);

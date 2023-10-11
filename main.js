@@ -36,7 +36,7 @@ const productSlider = () => {
   });
 };
 
-const init = () => {
+const init = async () => {
   const api = new APIService();
   const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
 
@@ -44,10 +44,18 @@ const init = () => {
   new Main().mount();
   new Footer().mount();
 
-  api.getProductCategories().then((data) => {
+  /*api.getProductCategories().then((data) => {
     new Catalog().mount(new Main().element, data);
     router.updatePageLinks();
-  });
+  });*/
+
+  try {
+    const data = await api.getProductCategories();
+    new Catalog().mount(new Main().element, data);
+    router.updatePageLinks();
+  } catch (error) {
+    console.log(error);
+  }
 
   productSlider();
 
