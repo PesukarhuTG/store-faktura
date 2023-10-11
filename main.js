@@ -6,6 +6,7 @@ import { Main } from './modules/Main/Main';
 import { Footer } from './modules/Footer/Footer';
 import { Order } from './modules/Order/Order';
 import { ProductList } from './modules/ProductList/ProductList';
+import { APIService } from './services/APIService';
 
 const productSlider = () => {
   Promise.all([
@@ -35,6 +36,8 @@ const productSlider = () => {
 };
 
 const init = () => {
+  const api = new APIService();
+
   new Header().mount();
   new Main().mount();
   new Footer().mount();
@@ -45,8 +48,10 @@ const init = () => {
   router
     .on(
       '/',
-      () => {
-        new ProductList().mount(new Main().element, [1, 2, 3]);
+      async () => {
+        const products = await api.getProducts();
+
+        new ProductList().mount(new Main().element, products);
         console.log('на главной');
       },
       {

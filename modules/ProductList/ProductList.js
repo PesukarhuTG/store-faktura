@@ -1,4 +1,5 @@
 import { addContainer } from '../utils/addContainer';
+import { API_URL } from '../utils/const';
 
 export class ProductList {
   static instance = null;
@@ -25,9 +26,8 @@ export class ProductList {
       ? 'goods__title'
       : 'goods__title visually-hidden';
 
-    this.containerElement.append(titleElem); // show title
-    this.updateListElem(data); // update good list
-
+    this.containerElement.append(titleElem);
+    this.updateListElem(data);
     if (this.isMounted) {
       return;
     }
@@ -59,20 +59,23 @@ export class ProductList {
     this.containerElement.append(listElem);
   }
 
-  getHTMLTemplateListItem(item) {
+  getHTMLTemplateListItem({ id, images: [image], name: title, price }) {
     return `
       <article class="goods__card card">
-        <a class="card__link card__link_img" href="/product/123">
-          <img class="card__image" src="/img/photo.png" alt="Картинка продукта">
+        <a class="card__link card__link_img" href="/product/${id}">
+          <img class="card__image" src="${API_URL}${image}" alt="${title}">
         </a>
+
         <div class="card__info">
           <h3 class="card__title">
-            <a class="card__link" href="/product/123">Кресло с подлокотниками</a>
+            <a class="card__link" href="/product/${id}">${title}</a>
           </h3>
-          <span class="card__price">5&nbsp;000&nbsp;₽</span>
+          <span class="card__price">${price.toLocaleString()}&nbsp;₽</span>
         </div>
-        <button class="card__btn" type="button">В корзину</button>
-        <button class="card__favourite" type="button">
+
+        <button class="card__btn" data-id="${id}" type="button">В корзину</button>
+
+        <button class="card__favourite" data-id="${id}" type="button">
           <svg class="icon" width="16" height="16">
             <use xlink:href="/img/sprite.svg#icon-heart"></use>
           </svg>
