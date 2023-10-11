@@ -1,7 +1,12 @@
 .card {
   position: relative;
+  height: 100%; /*равнение карточки по высоте*/
+  display: flex; /*равнение карточки по высоте*/
+  flex-direction: column; /*равнение карточки по высоте*/
 
   &__info {
+    flex-grow: 1; /*равнение карточки по высоте*/
+
     @media (min-width: 580px) {
       display: flex;
       justify-content: space-between;
@@ -25,7 +30,15 @@
     width: 100%;
     object-fit: cover;
     border-radius: 16px;
-    aspect-ratio: 1/1;
+    aspect-ratio: 7/6;
+
+    @media (min-width: 580px) {
+      aspect-ratio: 23/20;
+    }
+
+    @media (min-width: 820px) {
+      aspect-ratio: 151/125;
+    }
   }
 
   &__title {

@@ -7,6 +7,7 @@ import { Footer } from './modules/Footer/Footer';
 import { Order } from './modules/Order/Order';
 import { ProductList } from './modules/ProductList/ProductList';
 import { APIService } from './services/APIService';
+import { Catalog } from './modules/Catalog/Catalog';
 
 const productSlider = () => {
   Promise.all([
@@ -37,26 +38,33 @@ const productSlider = () => {
 
 const init = () => {
   const api = new APIService();
+  const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
 
   new Header().mount();
   new Main().mount();
   new Footer().mount();
 
+  api.getProductCategories().then((data) => {
+    new Catalog().mount(new Main().element, data);
+    router.updatePageLinks();
+  });
+
   productSlider();
 
-  const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
   router
     .on(
       '/',
       async () => {
         const products = await api.getProducts();
-
         new ProductList().mount(new Main().element, products);
-        console.log('на главной');
+
+        // тк роутер с ссылками отработает раньше чем отрисуются товары,
+        //после отрисовки товаров просим его обновить все ссылки
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmount();
           done();
         },
         already() {
@@ -66,30 +74,28 @@ const init = () => {
     )
     .on(
       '/category',
-      () => {
-        new ProductList().mount(
-          new Main().element,
-          [1, 2, 3, 4, 5, 6, 7],
-          'Kaтегория'
-        );
-        console.log('категории');
+      async ({ params: { slug } }) => {
+        const products = await api.getProducts();
+        new ProductList().mount(new Main().element, products, slug);
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmount();
           done();
         },
       }
     )
     .on(
       '/favourite',
-      () => {
-        new ProductList().mount(new Main().element, [1, 2, 3], 'Избранное');
-        console.log('избранное');
+      async () => {
+        const products = await api.getProducts();
+        new ProductList().mount(new Main().element, products, 'Избранное');
+        router.updatePageLinks();
       },
       {
         leave(done) {
-          console.log('leave');
+          new ProductList().unmount();
           done();
         },
       }

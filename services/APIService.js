@@ -6,7 +6,6 @@ export class APIService {
 
   constructor() {
     this.accessKey = localStorage.getItem('accessKey');
-    console.log(this.accessKey);
   }
 
   async getAccessKey() {
@@ -54,5 +53,13 @@ export class APIService {
       category,
       q,
     });
+  }
+
+  async getProductCategories() {
+    return await this.getData('api/productCategories');
+  }
+
+  async getProductById(id) {
+    return await this.getData(`/api/products/${id}`);
   }
 }
