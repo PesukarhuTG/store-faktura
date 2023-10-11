@@ -8,7 +8,10 @@ Using technologies:
 - HTML, SCSS
 - sprite for svg icons
 - JavaScript (ES6+)
-- Library: [Swiper](https://swiperjs.com/demos#thumbs-gallery) for product card slider, [Navigo 8](https://github.com/krasimir/navigo/blob/master/DOCUMENTATION.md) for routing
+- Library:
+  - [Swiper](https://swiperjs.com/demos#thumbs-gallery) for product card slider
+  - [Navigo 8](https://github.com/krasimir/navigo/blob/master/DOCUMENTATION.md) for routing
+  - Axios for requests to API
 
 
 
