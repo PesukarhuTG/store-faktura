@@ -68,7 +68,7 @@ export class ProductList {
 
         <div class="card__info">
           <h3 class="card__title">
-            <a class="card__link" href="/product/${id}">${title}</a>
+            <a class="card__link" tabindex="-1" href="/product/${id}">${title}</a>
           </h3>
           <span class="card__price">${price.toLocaleString()}&nbsp;₽</span>
         </div>
