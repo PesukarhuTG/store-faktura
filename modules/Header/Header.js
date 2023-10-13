@@ -1,4 +1,4 @@
-import { getLogo } from '../../features/Logo/getLogo';
+import { Logo } from '../../features/Logo/Logo';
 import { addContainer } from '../utils/addContainer';
 
 export class Header {
@@ -21,7 +21,7 @@ export class Header {
       return;
     }
 
-    const logo = getLogo('header');
+    const logo = new Logo('header').create();
     const searchForm = this.getSearchForm();
     const navigation = this.getNavigation();
 

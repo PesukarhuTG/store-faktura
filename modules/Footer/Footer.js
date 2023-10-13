@@ -1,4 +1,4 @@
-import { getLogo } from '../../features/Logo/getLogo';
+import { Logo } from '../../features/Logo/Logo';
 import { addContainer } from '../utils/addContainer';
 
 export class Footer {
@@ -21,7 +21,7 @@ export class Footer {
       return;
     }
 
-    const logo = getLogo('footer');
+    const logo = new Logo('footer').create();
 
     this.containerElement.append(logo);
     this.containerElement.insertAdjacentHTML('beforeend', this.getHTML());
