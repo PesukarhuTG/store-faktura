@@ -1,5 +1,5 @@
+import { getLogo } from '../../features/Logo/getLogo';
 import { addContainer } from '../utils/addContainer';
-import logoImage from '/img/faktura-logo.svg';
 
 export class Header {
   static instance = null;
@@ -21,7 +21,7 @@ export class Header {
       return;
     }
 
-    const logo = this.getLogo();
+    const logo = getLogo('header');
     const searchForm = this.getSearchForm();
     const navigation = this.getNavigation();
 
@@ -36,20 +36,20 @@ export class Header {
     this.isMounted = false;
   }
 
-  getLogo() {
-    const logo = document.createElement('a');
-    logo.classList.add('header__link-logo');
-    logo.href = '/';
+  // getLogo() {
+  //   const logo = document.createElement('a');
+  //   logo.classList.add('header__link-logo');
+  //   logo.href = '/';
 
-    const imgLogo = document.createElement('img');
-    imgLogo.classList.add('header__logo');
-    imgLogo.src = logoImage;
-    imgLogo.alt = 'Логотип мебельного магазина Фактура';
+  //   const imgLogo = document.createElement('img');
+  //   imgLogo.classList.add('header__logo');
+  //   imgLogo.src = logoImage;
+  //   imgLogo.alt = 'Логотип мебельного магазина Фактура';
 
-    logo.append(imgLogo);
+  //   logo.append(imgLogo);
 
-    return logo;
-  }
+  //   return logo;
+  // }
 
   getSearchForm() {
     const searchForm = document.createElement('form');

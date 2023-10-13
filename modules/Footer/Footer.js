@@ -1,5 +1,5 @@
+import { getLogo } from '../../features/Logo/getLogo';
 import { addContainer } from '../utils/addContainer';
-import logoImage from '/img/faktura-logo.svg';
 
 export class Footer {
   static instance = null;
@@ -21,7 +21,7 @@ export class Footer {
       return;
     }
 
-    const logo = this.getLogo();
+    const logo = getLogo('footer');
 
     this.containerElement.append(logo);
     this.containerElement.insertAdjacentHTML('beforeend', this.getHTML());
@@ -33,21 +33,6 @@ export class Footer {
   unmount() {
     this.element.remove();
     this.isMounted = false;
-  }
-
-  getLogo() {
-    const logo = document.createElement('a');
-    logo.classList.add('footer__link-logo');
-    logo.href = '/';
-
-    const imgLogo = document.createElement('img');
-    imgLogo.classList.add('footer__logo');
-    imgLogo.src = logoImage;
-    imgLogo.alt = 'Логотип мебельного магазина Фактура';
-
-    logo.append(imgLogo);
-
-    return logo;
   }
 
   getHTML() {
