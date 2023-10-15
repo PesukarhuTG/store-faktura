@@ -1,5 +1,5 @@
-import { Logo } from '../../features/Logo/Logo';
-import { addContainer } from '../utils/addContainer';
+import { Logo } from '../../features/Logo/Logo.js';
+import { addContainer } from '../utils/addContainer.js';
 
 export class Header {
   static instance = null;
@@ -35,21 +35,6 @@ export class Header {
     this.element.remove();
     this.isMounted = false;
   }
-
-  // getLogo() {
-  //   const logo = document.createElement('a');
-  //   logo.classList.add('header__link-logo');
-  //   logo.href = '/';
-
-  //   const imgLogo = document.createElement('img');
-  //   imgLogo.classList.add('header__logo');
-  //   imgLogo.src = logoImage;
-  //   imgLogo.alt = 'Логотип мебельного магазина Фактура';
-
-  //   logo.append(imgLogo);
-
-  //   return logo;
-  // }
 
   getSearchForm() {
     const searchForm = document.createElement('form');

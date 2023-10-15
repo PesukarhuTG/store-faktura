@@ -1,5 +1,5 @@
-import { Card } from '../../features/Card/Card';
-import { addContainer } from '../utils/addContainer';
+import { Card } from '../../features/Card/Card.js';
+import { addContainer } from '../utils/addContainer.js';
 
 export class ProductList {
   static instance = null;

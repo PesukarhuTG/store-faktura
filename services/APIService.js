@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { API_URL } from '../modules/utils/const';
-import { LStorageService } from './LStorageService';
+import { API_URL } from '../modules/utils/const.js';
+import { LStorageService } from './LStorageService.js';
 
 const LS = new LStorageService();
 

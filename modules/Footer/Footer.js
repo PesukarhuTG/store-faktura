@@ -1,5 +1,5 @@
-import { Logo } from '../../features/Logo/Logo';
-import { addContainer } from '../utils/addContainer';
+import { Logo } from '../../features/Logo/Logo.js';
+import { addContainer } from '../utils/addContainer.js';
 
 export class Footer {
   static instance = null;

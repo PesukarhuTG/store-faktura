@@ -1,4 +1,4 @@
-import { addContainer } from '../utils/addContainer';
+import { addContainer } from '../utils/addContainer.js';
 
 export class Order {
   static instance = null;

@@ -1,4 +1,4 @@
-import { addContainer } from '../utils/addContainer';
+import { addContainer } from '../utils/addContainer.js';
 
 export class Catalog {
   static instance = null;
