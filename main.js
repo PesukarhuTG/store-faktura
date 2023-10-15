@@ -8,6 +8,7 @@ import { Order } from './modules/Order/Order';
 import { ProductList } from './modules/ProductList/ProductList';
 import { APIService } from './services/APIService';
 import { Catalog } from './modules/Catalog/Catalog';
+import { FavoriteService } from './services/StorageService';
 
 const productSlider = () => {
   Promise.all([
@@ -93,19 +94,33 @@ const init = async () => {
           new ProductList().unmount();
           done();
         },
+        already(match) {
+          // если удалили товар из избранного и снова зашли на страницу то товара уже не д.б,
+          // => нужно снова запустить фцию async, переданную вторым параметром выше
+          match.route.handler(match);
+        },
       }
     )
     .on(
       '/favourite',
       async () => {
-        const products = await api.getProducts();
-        new ProductList().mount(new Main().element, products, 'Избранное');
+        const favorite = new FavoriteService().get();
+        const { data: products } = await api.getProducts({ list: favorite });
+        new ProductList().mount(
+          new Main().element,
+          products,
+          'Избранное',
+          'Вы ничего не добавили в «Избранное»'
+        );
         router.updatePageLinks();
       },
       {
         leave(done) {
           new ProductList().unmount();
           done();
+        },
+        already(match) {
+          match.route.handler(match);
         },
       }
     )

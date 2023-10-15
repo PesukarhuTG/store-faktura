@@ -18,7 +18,7 @@ export class ProductList {
     return ProductList.instance;
   }
 
-  mount(parent, data, title) {
+  mount(parent, data, title, emptyText) {
     this.containerElement.textContent = '';
     const titleElem = document.createElement('h2');
     titleElem.textContent = title ? title : 'Список товаров';
@@ -27,7 +27,25 @@ export class ProductList {
       : 'goods__title visually-hidden';
 
     this.containerElement.append(titleElem);
-    this.updateListElem(data);
+
+    if (data && data.length) {
+      this.updateListElem(data);
+    } else {
+      this.containerElement.insertAdjacentHTML(
+        'beforeend',
+        `
+      <h2 class="error__title">${
+        emptyText || 'Произошла ошибка, попробуйте снова'
+      }</h2>
+          <div class="error__img">
+            <svg class="icon">
+                <use xlink:href="/img/sprite.svg#furniture"></use>
+            </svg>
+          </div>
+      `
+      );
+    }
+
     if (this.isMounted) {
       return;
     }
@@ -44,7 +62,7 @@ export class ProductList {
 
   addEvents() {}
 
-  updateListElem(data = ['001', '002', '003']) {
+  updateListElem(data) {
     const listElem = document.createElement('ul');
     listElem.classList.add('goods__list');
 
