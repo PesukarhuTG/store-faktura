@@ -1,5 +1,5 @@
+import { Card } from '../../features/Card/Card';
 import { addContainer } from '../utils/addContainer';
-import { API_URL } from '../utils/const';
 
 export class ProductList {
   static instance = null;
@@ -48,39 +48,16 @@ export class ProductList {
     const listElem = document.createElement('ul');
     listElem.classList.add('goods__list');
 
-    const listItems = data?.map((item) => {
-      const listItemElem = document.createElement('li');
-      listItemElem.classList.add('goods__item');
-      listItemElem.innerHTML = this.getHTMLTemplateListItem(item);
-      return listItemElem;
-    });
+    const listItems = data?.map(
+      ({ id, images: [image], name: title, price }) => {
+        const listItemElem = document.createElement('li');
+        listItemElem.classList.add('goods__item');
+        listItemElem.append(new Card({ id, image, title, price }).create());
+        return listItemElem;
+      }
+    );
 
     listElem.append(...listItems);
     this.containerElement.append(listElem);
-  }
-
-  getHTMLTemplateListItem({ id, images: [image], name: title, price }) {
-    return `
-      <article class="goods__card card">
-        <a class="card__link card__link_img" href="/product/${id}">
-          <img class="card__image" src="${API_URL}${image}" alt="${title}">
-        </a>
-
-        <div class="card__info">
-          <h3 class="card__title">
-            <a class="card__link" tabindex="-1" href="/product/${id}">${title}</a>
-          </h3>
-          <span class="card__price">${price.toLocaleString()}&nbsp;₽</span>
-        </div>
-
-        <button class="card__btn" data-id="${id}" type="button">В корзину</button>
-
-        <button class="card__favourite" data-id="${id}" type="button">
-          <svg class="icon" width="16" height="16">
-            <use xlink:href="/img/sprite.svg#icon-heart"></use>
-          </svg>
-        </button>
-      </article>
-  `;
   }
 }
