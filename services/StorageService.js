@@ -67,7 +67,7 @@ export class FavoriteService extends StorageService {
   }
 
   check(value) {
-    this.favorite.has(value);
+    return this.favorite.has(value);
   }
 }
 
