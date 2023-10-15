@@ -1,4 +1,4 @@
-import { likeSvg } from '../likeSVG/likeSVG';
+import { likeSvg } from '../likeSVG/likeSVG.js';
 
 export class LikeButton {
   constructor(className) {
