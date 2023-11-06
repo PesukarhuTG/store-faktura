@@ -11,33 +11,8 @@ import { Catalog } from './modules/Catalog/Catalog.js';
 import { FavoriteService } from './services/StorageService.js';
 import { Pagination } from './modules/Pagination/Pagination.js';
 import { BreadCrumbs } from './features/BreadCrumbs/BreadCrumbs.js';
-
-const productSlider = () => {
-  Promise.all([
-    import('swiper/modules'),
-    import('swiper'),
-    import('swiper/css'),
-  ]).then(([{ Navigation, Thumbs }, Swiper]) => {
-    const swiperThumbnails = new Swiper.default('.product__slider-thumbnails', {
-      spaceBetween: 10,
-      slidesPerView: 4,
-      freeMode: true,
-      watchSlidesProgress: true,
-    });
-
-    new Swiper.default('.product__slider-main', {
-      spaceBetween: 10,
-      navigation: {
-        nextEl: '.product__arrow_next',
-        prevEl: '.product__arrow_prev',
-      },
-      thumbs: {
-        swiper: swiperThumbnails,
-      },
-      modules: [Navigation, Thumbs],
-    });
-  });
-};
+import { ProductCard } from './modules/ProductCard/ProductCard.js';
+import { productSlider } from './modules/ProductSlider/ProductSlider.js';
 
 export const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
 
@@ -47,21 +22,6 @@ const init = async () => {
   new Header().mount();
   new Main().mount();
   new Footer().mount();
-
-  /*api.getProductCategories().then((data) => {
-    new Catalog().mount(new Main().element, data);
-    router.updatePageLinks();
-  }); переписано ниже через await */
-
-  /*try {
-    const data = await api.getProductCategories();
-    new Catalog().mount(new Main().element, data);
-    router.updatePageLinks();
-  } catch (error) {
-    console.log(error);
-  }*/
-
-  productSlider();
 
   router
     .on(
@@ -159,9 +119,32 @@ const init = async () => {
     .on('/search', () => {
       console.log('поиск');
     })
-    .on('/product/:id', (obj) => {
-      console.log('продукт', obj);
-    })
+    .on(
+      '/product/:id',
+      async (obj) => {
+        new Catalog().mount(new Main().element);
+        const data = await api.getProductById(obj.data.id);
+        new BreadCrumbs().mount(new Main().element, [
+          {
+            text: data.category,
+            href: `/category?slug=${data.category}`,
+          },
+          {
+            text: data.name,
+          },
+        ]);
+        new ProductCard().mount(new Main().element, data);
+        productSlider();
+      },
+      {
+        leave(done) {
+          new Catalog().unmount();
+          new BreadCrumbs().unmount();
+          new ProductCard().unmount();
+          done();
+        },
+      }
+    )
     .on('/order', () => {
       new Order().mount(new Main().element);
       console.log('заказ');
