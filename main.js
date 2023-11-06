@@ -1,15 +1,16 @@
 import 'normalize.css';
 import './style.scss';
 import Navigo from 'navigo';
-import { Header } from './modules/Header/Header';
-import { Main } from './modules/Main/Main';
-import { Footer } from './modules/Footer/Footer';
-import { Order } from './modules/Order/Order';
-import { ProductList } from './modules/ProductList/ProductList';
-import { APIService } from './services/APIService';
-import { Catalog } from './modules/Catalog/Catalog';
-import { FavoriteService } from './services/StorageService';
-import { Pagination } from './modules/Pagination/Pagination';
+import { Header } from './modules/Header/Header.js';
+import { Main } from './modules/Main/Main.js';
+import { Footer } from './modules/Footer/Footer.js';
+import { Order } from './modules/Order/Order.js';
+import { ProductList } from './modules/ProductList/ProductList.js';
+import { APIService } from './services/APIService.js';
+import { Catalog } from './modules/Catalog/Catalog.js';
+import { FavoriteService } from './services/StorageService.js';
+import { Pagination } from './modules/Pagination/Pagination.js';
+import { BreadCrumbs } from './features/BreadCrumbs/BreadCrumbs.js';
 
 const productSlider = () => {
   Promise.all([
@@ -38,9 +39,10 @@ const productSlider = () => {
   });
 };
 
+export const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
+
 const init = async () => {
   const api = new APIService();
-  const router = new Navigo('/', { linksSelector: 'a[href^="/"]' });
 
   new Header().mount();
   new Main().mount();
@@ -49,15 +51,15 @@ const init = async () => {
   /*api.getProductCategories().then((data) => {
     new Catalog().mount(new Main().element, data);
     router.updatePageLinks();
-  });*/
+  }); переписано ниже через await */
 
-  try {
+  /*try {
     const data = await api.getProductCategories();
     new Catalog().mount(new Main().element, data);
     router.updatePageLinks();
   } catch (error) {
     console.log(error);
-  }
+  }*/
 
   productSlider();
 
@@ -65,6 +67,8 @@ const init = async () => {
     .on(
       '/',
       async () => {
+        new Catalog().mount(new Main().element);
+
         const products = await api.getProducts();
         new ProductList().mount(new Main().element, products);
 
@@ -75,6 +79,7 @@ const init = async () => {
       {
         leave(done) {
           new ProductList().unmount();
+          new Catalog().unmount();
           done();
         },
         already() {
@@ -84,12 +89,15 @@ const init = async () => {
     )
     .on(
       '/category',
-      async ({ params: { slug, page } }) => {
+      async ({ params: { slug, page = 1 } }) => {
+        new Catalog().mount(new Main().element);
+
         const { data: products, pagination } = await api.getProducts({
           category: slug,
-          page: page || 1,
+          page: page,
         });
 
+        new BreadCrumbs().mount(new Main().element, [{ text: slug }]);
         new ProductList().mount(new Main().element, products, slug);
         new Pagination()
           .mount(new ProductList().containerElement)
@@ -98,7 +106,9 @@ const init = async () => {
       },
       {
         leave(done) {
+          new BreadCrumbs().unmount();
           new ProductList().unmount();
+          new Catalog().unmount();
           done();
         },
         already(match) {
@@ -110,20 +120,32 @@ const init = async () => {
     )
     .on(
       '/favourite',
-      async () => {
+      async ({ params }) => {
+        new Catalog().mount(new Main().element);
+
         const favorite = new FavoriteService().get();
-        const { data: products } = await api.getProducts({ list: favorite });
+        const { data: products, pagination } = await api.getProducts({
+          list: favorite,
+          page: params?.page || 1,
+        });
+
+        new BreadCrumbs().mount(new Main().element, [{ text: 'Избранное' }]);
         new ProductList().mount(
           new Main().element,
           products,
           'Избранное',
           'Вы ничего не добавили в «Избранное»'
         );
+        new Pagination()
+          .mount(new ProductList().containerElement)
+          .update(pagination);
         router.updatePageLinks();
       },
       {
         leave(done) {
+          new BreadCrumbs().unmount();
           new ProductList().unmount();
+          new Catalog().unmount();
           done();
         },
         already(match) {
